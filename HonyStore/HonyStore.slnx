@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="src/HonyStore.API/HonyStore.API.csproj" Id="3f5d3985-d2e0-4884-a63a-b4151b16b128" />
+  <Project Path="src/HonyStore.Application/HonyStore.Application.csproj" Id="5d4f7c0d-472b-44fe-90d1-1af2e872f9bc" />
+  <Project Path="src/HonyStore.Domain/HonyStore.Domain.csproj" Id="9d034ee0-3317-4e06-a431-19d97f1e30d3" />
+  <Project Path="src/HonyStore.Infrastructure/HonyStore.Infrastructure.csproj" Id="7def8dc8-7074-412d-b524-12a2707e2754" />
+  <Project Path="src/HonyStore.UnitTests/HonyStore.UnitTests.csproj" Id="6256387e-6218-4c34-a2ee-8af582a5f16e" />
+</Solution>
