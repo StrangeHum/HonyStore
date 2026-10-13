@@ -12,8 +12,4 @@
     <ProjectReference Include="..\HonyStore.Infrastructure\HonyStore.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
