@@ -2,21 +2,20 @@
 
 namespace HonyStore.Domain.Product
 {
-    public class Product
+    public class Product : Shared.Entity<ProductId>
     {
-        public Guid IdProduct { get; set; }
         public string Name { get; private set; } = default!;
         public string Description { get; private set; } = default!;
         public decimal Price { get; private set; }
 
-        private Product(string name, string description, decimal price)
+        private Product(ProductId productId, string name, string description, decimal price) : base(productId)
         {
             Name = name;
             Description = description;
             Price = price;
         }
 
-        public static Result<Product> Create(string name, string description, decimal price)
+        public static Result<Product> Create(ProductId id, string name, string description, decimal price)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -33,7 +32,7 @@ namespace HonyStore.Domain.Product
                 return Result.Failure<Product>("Цена должна быть положительной");
             }
 
-            var product = new Product(name, description, price);
+            var product = new Product(id, name, description, price);
 
             return Result.Success(product);
         }

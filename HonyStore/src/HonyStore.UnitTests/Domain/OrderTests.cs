@@ -9,21 +9,55 @@ namespace HonyStore.UnitTests.Domain
 {
     public class OrderTests
     {
-        [Fact]
-        public void Order_CalculateTotalPrice()
+        public static IEnumerable<object[]> GetOrderIdsData()
         {
-            Result<Product> productResult = Product.Create("Картошка", "картофельная", 300);
-            Result<Product> product2Result = Product.Create("Моркофка", "моркофельная", 212);
+            yield return new object[] { OrderId.NewOrderId(), true };
+            yield return new object[] { OrderId.Empty(), true };
+        }
+        public static IEnumerable<object[]> GetProductsData()
+        {
+            yield return new object[] { 
+            new[] { 
+                Product.Create(ProductId.NewProductId(), "Картошка", "картофельная", 300m).Value,
+                Product.Create(ProductId.NewProductId(), "Моркофка", "моркофельная", 212m).Value
+            }, 512 };
+            yield return new object[] {
+            new[] {
+                Product.Create(ProductId.NewProductId(), "Картошка", "картофельная", 200m).Value,
+                Product.Create(ProductId.NewProductId(), "Моркофка", "моркофельная", 100m).Value
+            }, 300 };
+        }
 
-            Assert.True(productResult.IsSuccess);
-            Assert.True(product2Result.IsSuccess);
+        [Theory]
+        [MemberData(nameof(GetOrderIdsData))]
+        public void Create_VariousOrderIds_ShouldMatchExpectedResult(OrderId id, bool expectedSucces)
+        {
+            var orderResult = Order.Create(id);
 
-            Order order = new Order();
+            Assert.Equal(expectedSucces, orderResult.IsSuccess);
+        }
 
-            order.AddProductToOrder(productResult.Value)
-                .AddProductToOrder(product2Result.Value);
 
-            Assert.Equal(512, order.TotalPrice);
+        [Theory]
+        [MemberData(nameof(GetProductsData))]
+        public void CalculateTotalPrice_CurrentDataProduct_ShouldReturnTotalPrice(Product[] products, decimal expectedResultPrice)
+        {
+            var orderResult = Order.Create(OrderId.NewOrderId());
+
+            Assert.True(orderResult.IsSuccess);
+
+            Order order = orderResult.Value;
+            order.AddProductToOrder(products.ToList());
+
+            Assert.Equal(expectedResultPrice, order.TotalPrice());
+        }
+
+        [Fact]
+        public void Create_CurrentData_ShouldCreateOrder()
+        {
+            var orderResult = Order.Create(OrderId.NewOrderId());
+
+            Assert.True(orderResult.IsSuccess);
         }
     }
 }
