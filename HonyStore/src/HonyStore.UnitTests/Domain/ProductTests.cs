@@ -1,9 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
-using HonyStore.Domain.Product;
+using HonyStore.Domain.Products;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Xunit;
+using Xunit.v3;
 
 namespace HonyStore.UnitTests.Domain
 {
@@ -57,7 +57,7 @@ namespace HonyStore.UnitTests.Domain
 
             Assert.Equal(name, product.Name);
             Assert.Equal(description, product.Description);
-            Assert.Equal(price, product.Price);
+            Assert.Equal(price, product.Price.Value);
         }
 
         [Fact]
@@ -67,7 +67,7 @@ namespace HonyStore.UnitTests.Domain
             Result<Product> productResult = Product.Create(ProductId.NewProductId(), "Картошка", "картофельная", 100);
             Product product = productResult.Value;
 
-            product.ChangePrice(changedValue);
+            product.UpdatePrice(changedValue);
 
             Assert.Equal(changedValue, product.Price);
         }
@@ -79,7 +79,7 @@ namespace HonyStore.UnitTests.Domain
             Result<Product> productResult = Product.Create(ProductId.NewProductId(), "Картошка", "картофельная", 100);
             Product product = productResult.Value;
 
-            var resultChangePrice = product.ChangePrice(changedValue);
+            var resultChangePrice = product.UpdatePrice(changedValue);
 
             Assert.True(resultChangePrice.IsFailure);
             Assert.Equal("Цена должна быть положительной", resultChangePrice.Error);

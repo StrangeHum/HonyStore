@@ -1,5 +1,4 @@
-﻿
-namespace HonyStore.Domain.Product
+﻿namespace HonyStore.Domain.Orders
 {
     public record OrderId
     {

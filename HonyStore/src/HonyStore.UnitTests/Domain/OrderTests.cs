@@ -1,32 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Xunit;
-using HonyStore.Domain.Product;
+using Xunit.v3;
 using CSharpFunctionalExtensions;
+using HonyStore.Domain.Orders;
+using HonyStore.Domain.Products;
 
 namespace HonyStore.UnitTests.Domain
 {
     public class OrderTests
     {
-        public static IEnumerable<object[]> GetOrderIdsData()
+        public static List<Product> UnitTestProductDataBase = new List<Product> 
         {
-            yield return new object[] { OrderId.NewOrderId(), true };
-            yield return new object[] { OrderId.Empty(), true };
-        }
-        public static IEnumerable<object[]> GetProductsData()
-        {
-            yield return new object[] { 
-            new[] { 
-                Product.Create(ProductId.NewProductId(), "Картошка", "картофельная", 300m).Value,
-                Product.Create(ProductId.NewProductId(), "Моркофка", "моркофельная", 212m).Value
-            }, 512 };
-            yield return new object[] {
-            new[] {
-                Product.Create(ProductId.NewProductId(), "Картошка", "картофельная", 200m).Value,
-                Product.Create(ProductId.NewProductId(), "Моркофка", "моркофельная", 100m).Value
-            }, 300 };
-        }
+            Product.Create(ProductId.NewProductId(), "Картошка", "Картофельная", 42m).Value,
+            Product.Create(ProductId.NewProductId(), "Моркофка", "моркофельная", 12m).Value,
+            Product.Create(ProductId.NewProductId(), "Машинка", "Машинная", 1000m).Value,
+            Product.Create(ProductId.NewProductId(), "Каршинка", "Карширнная", 1300m).Value,
+        };
+        public static IEnumerable<TheoryDataRow<OrderId, bool>> GetOrderIdsData = [
+            new (OrderId.NewOrderId(), true),
+            new (OrderId.Empty(), false)
+            ];
+        
+        public static IEnumerable<TheoryDataRow<List<(Product product, int count)>, decimal>> GetProductsData =
+        [
+            new  (
+                new List<(Product product, int count)>
+                {
+                    (UnitTestProductDataBase[0], 1),
+                    (UnitTestProductDataBase[1], 2)
+                }, 66),
+            new (
+                new List<(Product product, int count)>
+                {
+                    (UnitTestProductDataBase[2], 3),
+                    (UnitTestProductDataBase[3], 1)
+                }, 4300
+            )
+        ];
 
         [Theory]
         [MemberData(nameof(GetOrderIdsData))]
@@ -40,14 +51,13 @@ namespace HonyStore.UnitTests.Domain
 
         [Theory]
         [MemberData(nameof(GetProductsData))]
-        public void CalculateTotalPrice_CurrentDataProduct_ShouldReturnTotalPrice(Product[] products, decimal expectedResultPrice)
+        public void CalculateTotalPrice_CurrentDataProduct_ShouldReturnTotalPrice(List<(Product product, int count)> products, decimal expectedResultPrice)
         {
-            var orderResult = Order.Create(OrderId.NewOrderId());
+            var orderResult = Order.Create(OrderId.NewOrderId(), products);
 
             Assert.True(orderResult.IsSuccess);
 
             Order order = orderResult.Value;
-            order.AddProductToOrder(products.ToList());
 
             Assert.Equal(expectedResultPrice, order.TotalPrice());
         }

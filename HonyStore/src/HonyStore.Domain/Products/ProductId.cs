@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HonyStore.Domain.Product
+namespace HonyStore.Domain.Products
 {
     public record ProductId
     {
