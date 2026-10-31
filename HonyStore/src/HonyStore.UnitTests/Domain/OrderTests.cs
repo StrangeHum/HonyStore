@@ -18,7 +18,7 @@ namespace HonyStore.UnitTests.Domain
         {
             yield return new object[] { 
             new[] { 
-                Product.Create(ProductId.NewProductId(), "Картошка", "картофельная", 300m).Value,
+            {
                 Product.Create(ProductId.NewProductId(), "Моркофка", "моркофельная", 212m).Value
             }, 512 };
             yield return new object[] {
