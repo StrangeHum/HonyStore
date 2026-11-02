@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HonyStore.Domain.Shared
 {
-    public abstract class Entity<TId> where TId : notnull
+    public abstract class Entity<TId> where TId : IEntityId<TId>
     {
         protected Entity(TId id)
         {

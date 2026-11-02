@@ -8,7 +8,7 @@ namespace HonyStore.Domain.Orders
     {
         private Order(OrderId id, DateTime created) : base(id)
         {
-            
+            createdDate = created;
         }
 
         private readonly List<OrderItem> _products = [];

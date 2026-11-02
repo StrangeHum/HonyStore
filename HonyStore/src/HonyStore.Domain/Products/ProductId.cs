@@ -1,20 +1,17 @@
 ﻿using HonyStore.Domain.Shared;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace HonyStore.Domain.Products
 {
-    public record ProductId
+    public record ProductId : IEntityId<ProductId>
     {
-        private ProductId(Guid value)
-        {
+        private ProductId(Guid value) 
+        { 
             Value = value;
         }
 
         public Guid Value { get; }
 
-        public static ProductId NewProductId() => new ProductId(Guid.NewGuid());
+        public static ProductId NewId() => new ProductId(Guid.NewGuid());
 
         public static ProductId Empty() => new ProductId(Guid.Empty);
     }

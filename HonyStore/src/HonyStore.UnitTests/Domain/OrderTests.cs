@@ -12,13 +12,13 @@ namespace HonyStore.UnitTests.Domain
     {
         public static List<Product> UnitTestProductDataBase = new List<Product> 
         {
-            Product.Create(ProductId.NewProductId(), "Картошка", "Картофельная", 42m).Value,
-            Product.Create(ProductId.NewProductId(), "Моркофка", "моркофельная", 12m).Value,
-            Product.Create(ProductId.NewProductId(), "Машинка", "Машинная", 1000m).Value,
-            Product.Create(ProductId.NewProductId(), "Каршинка", "Карширнная", 1300m).Value,
+            Product.Create(ProductId.NewId(), "Картошка", "Картофельная", 42m).Value,
+            Product.Create(ProductId.NewId(), "Моркофка", "моркофельная", 12m).Value,
+            Product.Create(ProductId.NewId(), "Машинка", "Машинная", 1000m).Value,
+            Product.Create(ProductId.NewId(), "Каршинка", "Карширнная", 1300m).Value,
         };
         public static IEnumerable<TheoryDataRow<OrderId, bool>> GetOrderIdsData = [
-            new (OrderId.NewOrderId(), true),
+            new (OrderId.NewId(), true),
             new (OrderId.Empty(), false)
             ];
         
@@ -53,7 +53,7 @@ namespace HonyStore.UnitTests.Domain
         [MemberData(nameof(GetProductsData))]
         public void CalculateTotalPrice_CurrentDataProduct_ShouldReturnTotalPrice(List<(Product product, int count)> products, decimal expectedResultPrice)
         {
-            var orderResult = Order.Create(OrderId.NewOrderId(), products);
+            var orderResult = Order.Create(OrderId.NewId(), products);
 
             Assert.True(orderResult.IsSuccess);
 
@@ -65,7 +65,7 @@ namespace HonyStore.UnitTests.Domain
         [Fact]
         public void Create_CurrentData_ShouldCreateOrder()
         {
-            var orderResult = Order.Create(OrderId.NewOrderId());
+            var orderResult = Order.Create(OrderId.NewId());
 
             Assert.True(orderResult.IsSuccess);
         }
