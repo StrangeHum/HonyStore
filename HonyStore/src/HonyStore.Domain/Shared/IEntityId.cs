@@ -13,5 +13,6 @@ namespace HonyStore.Domain.Shared
         public static abstract TSelf NewId();
 
         public static abstract TSelf Empty();
+        public static abstract TSelf Create(Guid id);
     }
 }

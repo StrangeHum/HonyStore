@@ -5,7 +5,9 @@ namespace HonyStore.Domain.Orders
 {
     public class OrderItem : ValueObject
     {
+        //EF core
         private OrderItem() { }
+
         internal OrderItem(ProductId productId, decimal price, int count)
         {
             ProductId = productId;

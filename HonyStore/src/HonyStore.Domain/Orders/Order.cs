@@ -6,18 +6,21 @@ namespace HonyStore.Domain.Orders
 {
     public class Order : Shared.Entity<OrderId>
     {
+        //EF core
+        private Order() : base() { }
+
         private Order(OrderId id, DateTime created) : base(id)
         {
-            createdDate = created;
+            CreatedDate = created;
         }
 
         private readonly List<OrderItem> _products = [];
         public IReadOnlyList<OrderItem> Products => _products.AsReadOnly();
         public OrderStatus Status { get; private set; } = OrderStatus.Prepare;
-        public DateTime createdDate { get; private set; }
-        public DateTime pickupDate { get; private set; }                        // Дата, когда забрали заказ
+        public DateTime CreatedDate { get; private set; }
+        public DateTime? PickupDate { get; private set; }                        // Дата, когда забрали заказ
 
-        public decimal TotalPrice() => Products.Sum(product => product.Price * product.Count);
+        public decimal TotalPrice() => _products.Sum(product => product.TotalPrice);
 
         public Result<Order> AddProductToOrder(Product product, int count)
         {
@@ -32,7 +35,7 @@ namespace HonyStore.Domain.Orders
             }
 
 
-            //TODO: Валидация
+            //TODO: Изменить логику. Сейчас можно добавлять несколько товаров с одним и тем-же ID
             OrderItem item = new OrderItem(product.Id, product.Price, count);
 
             _products.Add(item);
@@ -47,7 +50,7 @@ namespace HonyStore.Domain.Orders
                 return Result.Failure<Order>("Id заказа пустой");
             }
 
-            Order order = new Order(id, DateTime.Now);
+            Order order = new Order(id, DateTime.UtcNow);
 
             if (initialProducts != null) 
             {
@@ -70,6 +73,6 @@ namespace HonyStore.Domain.Orders
         Prepare,
         InWay,
         Ready,
-        Succes
+        Success
     }
 }

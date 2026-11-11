@@ -13,7 +13,7 @@ namespace HonyStore.Domain.Orders
         public Guid Value { get; }
 
         public static OrderId NewId() => new OrderId(Guid.NewGuid());
-
         public static OrderId Empty() => new OrderId(Guid.Empty);
+        public static OrderId Create(Guid id) => new OrderId(id);
     }
 }

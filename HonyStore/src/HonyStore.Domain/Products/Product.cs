@@ -1,9 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
+using HonyStore.Domain.Orders;
+using HonyStore.Domain.Shared;
 
 namespace HonyStore.Domain.Products
 {
     public class Product : Shared.Entity<ProductId>
     {
+        //EF core
+        private Product() : base() { }
         private Product(ProductId productId, string name, string description, ProductPrice price) : base(productId)
         {
             Name = name;
@@ -26,9 +30,14 @@ namespace HonyStore.Domain.Products
                 return Result.Failure<Product>("Описание не может быть пустым");
             }
 
-            if (price <= 0)
+            if(name.Length >= Constraints.MaxLenghtTitle)
             {
-                return Result.Failure<Product>("Цена должна быть положительной");
+                return Result.Failure<Product>($"Название не может быть длиннее {Constraints.MaxLenghtTitle}");
+            }
+
+            if (description.Length >= Constraints.MaxLenghtTitle)
+            {
+                return Result.Failure<Product>($"Описание не может быть длиннее {Constraints.MaxLenghtTitle}");
             }
 
             var resultPrice = ProductPrice.Create(price);

@@ -1,0 +1,20 @@
+services:
+  honystore.api:
+    image: ${DOCKER_REGISTRY-}honystoreapi
+    build:
+      context: .
+      dockerfile: src/HonyStore.API/Dockerfile
+  db:
+    image: postgres:18
+    container_name: postgres-dev
+    environment:
+      POSTGRES_DB: honystore
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    
+volumes:
+  postgres_data:

@@ -12,7 +12,7 @@ namespace HonyStore.Domain.Products
         public Guid Value { get; }
 
         public static ProductId NewId() => new ProductId(Guid.NewGuid());
-
         public static ProductId Empty() => new ProductId(Guid.Empty);
+        public static ProductId Create(Guid id) => new ProductId(id);
     }
 }
