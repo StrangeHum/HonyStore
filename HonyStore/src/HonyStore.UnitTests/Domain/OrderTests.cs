@@ -20,23 +20,12 @@ namespace HonyStore.UnitTests.Domain
         public static IEnumerable<TheoryDataRow<OrderId, bool>> GetOrderIdsData = [
             new (OrderId.NewId(), true),
             new (OrderId.Empty(), false)
-            ];
+        ];
         
-        public static IEnumerable<TheoryDataRow<List<(Product product, int count)>, decimal>> GetProductsData =
+        public static IEnumerable<TheoryDataRow<List<InitialOrderItem>, decimal>> GetProductsData =
         [
-            new  (
-                new List<(Product product, int count)>
-                {
-                    (UnitTestProductDataBase[0], 1),
-                    (UnitTestProductDataBase[1], 2)
-                }, 66),
-            new (
-                new List<(Product product, int count)>
-                {
-                    (UnitTestProductDataBase[2], 3),
-                    (UnitTestProductDataBase[3], 1)
-                }, 4300
-            )
+            new ([new (UnitTestProductDataBase[0], 1), new (UnitTestProductDataBase[1], 2)], 66m),
+            new ([new (UnitTestProductDataBase[2], 3), new (UnitTestProductDataBase[3], 1)], 4300m)
         ];
 
         [Theory]
@@ -51,7 +40,7 @@ namespace HonyStore.UnitTests.Domain
 
         [Theory]
         [MemberData(nameof(GetProductsData))]
-        public void CalculateTotalPrice_CurrentDataProduct_ShouldReturnTotalPrice(List<(Product product, int count)> products, decimal expectedResultPrice)
+        public void CalculateTotalPrice_CurrentDataProduct_ShouldReturnTotalPrice(List<InitialOrderItem> products, decimal expectedResultPrice)
         {
             var orderResult = Order.Create(OrderId.NewId(), products);
 

@@ -43,7 +43,7 @@ namespace HonyStore.Domain.Orders
             return Result.Success(this);
         }
 
-        public static Result<Order> Create(OrderId id, IReadOnlyList<(Product product, int count)> initialProducts = null)
+        public static Result<Order> Create(OrderId id, IReadOnlyList<InitialOrderItem>? initialProducts = null)
         {
             if (id == OrderId.Empty())
             {
@@ -67,12 +67,5 @@ namespace HonyStore.Domain.Orders
 
             return Result.Success(order);
         }
-    }
-    public enum OrderStatus
-    {
-        Prepare,
-        InWay,
-        Ready,
-        Success
     }
 }
