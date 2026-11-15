@@ -30,14 +30,14 @@ namespace HonyStore.Domain.Products
                 return Result.Failure<Product>("Описание не может быть пустым");
             }
 
-            if(name.Length >= Constraints.MaxLenghtTitle)
+            if(name.Length >= Constraints.MAX_LENGTH_TITLE)
             {
-                return Result.Failure<Product>($"Название не может быть длиннее {Constraints.MaxLenghtTitle}");
+                return Result.Failure<Product>($"Название не может быть длиннее {Constraints.MAX_LENGTH_TITLE}");
             }
 
-            if (description.Length >= Constraints.MaxLenghtTitle)
+            if (description.Length >= Constraints.MAX_LENGTH_TITLE)
             {
-                return Result.Failure<Product>($"Описание не может быть длиннее {Constraints.MaxLenghtTitle}");
+                return Result.Failure<Product>($"Описание не может быть длиннее {Constraints.MAX_LENGTH_TITLE}");
             }
 
             var resultPrice = ProductPrice.Create(price);

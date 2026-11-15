@@ -6,7 +6,6 @@ namespace HonyStore.Domain.Shared
 {
     public static class Constraints
     {
-        public const int MaxLenghtTitle = 100;
-
+        public const int MAX_LENGTH_TITLE = 100;
     }
 }
