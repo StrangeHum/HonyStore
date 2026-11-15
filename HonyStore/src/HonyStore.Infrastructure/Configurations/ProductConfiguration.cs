@@ -35,11 +35,11 @@ namespace HonyStore.Infrastructure.Configurations
 
             builder.Property(p => p.Name)
                 .IsRequired()
-                .HasMaxLength(Constraints.MaxLenghtTitle);
+                .HasMaxLength(Constraints.MAX_LENGHT_TITLE);
 
             builder.Property(p => p.Description)
                 .IsRequired()
-                .HasMaxLength(Constraints.MaxLenghtTitle);
+                .HasMaxLength(Constraints.MAX_LENGHT_TITLE);
 
         }
     }

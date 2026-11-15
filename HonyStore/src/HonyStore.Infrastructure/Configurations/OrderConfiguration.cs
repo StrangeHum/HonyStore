@@ -23,8 +23,7 @@ namespace HonyStore.Infrastructure.Configurations
                 .IsRequired();
 
             //products
-            builder.OwnsMany(o => o.Products,
-                builder =>
+            builder.OwnsMany(o => o.Products, builder =>
                 {
                     builder.ToJson();
 
@@ -37,9 +36,17 @@ namespace HonyStore.Infrastructure.Configurations
                     builder.Ignore(p => p.TotalPrice);
                 }
             );
-
             builder.Navigation(o => o.Products)
                 .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.Property(o => o.Status)
+                .IsRequired();
+
+            builder.Property(o => o.CreatedDate)
+                .IsRequired();
+
+            builder.Property(o => o.PickupDate)
+                .IsRequired(false);
         }
     }
 }
