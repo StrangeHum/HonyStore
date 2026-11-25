@@ -14,7 +14,7 @@ namespace HonyStore.UnitTests.Domain
         {
             string nameProduct = string.Empty;
 
-            Result<Product> productResult = Product.Create(ProductId.NewId(), nameProduct, "картофельная", 300);
+            Result<Product> productResult = Product.Create(ProductId.NewId(), nameProduct, "картофельная", ProductPrice.Create(300).Value);
 
             Assert.True(productResult.IsFailure);
             Assert.Equal("Название не может быть пустым", productResult.Error);
@@ -25,7 +25,7 @@ namespace HonyStore.UnitTests.Domain
         {
             string descriptionProduct = string.Empty;
 
-            Result<Product> productResult = Product.Create(ProductId.NewId(), "Картошка", descriptionProduct, 300);
+            Result<Product> productResult = Product.Create(ProductId.NewId(), "Картошка", descriptionProduct, ProductPrice.Create(300).Value);
 
             Assert.True(productResult.IsFailure);
             Assert.Equal("Описание не может быть пустым", productResult.Error);
@@ -36,20 +36,21 @@ namespace HonyStore.UnitTests.Domain
         [InlineData(-1)]
         public void Create_WhenPriceIsNotPositive_ShouldReturnFailure(decimal price)
         {
-            Result<Product> productResult = Product.Create(ProductId.NewId(), "Картошка", "картофельная", price);
+            var productPrice = ProductPrice.Create(price);
 
-            Assert.True(productResult.IsFailure);
-            Assert.Equal("Цена должна быть положительной", productResult.Error);
+            Assert.True(productPrice.IsFailure);
+            Assert.Equal("Цена должна быть положительной", productPrice.Error);
         }
 
         [Fact]
         public void Create_WithValidData_ShouldCreateProduct()
         {
-            // Arrange
             var name = "Картошка";
             var description = "картофельная";
             var price = 300;
-            Result<Product> productResult = Product.Create(ProductId.NewId(), name, description, price);
+            var productPrice = ProductPrice.Create(300).Value;
+
+            Result<Product> productResult = Product.Create(ProductId.NewId(), name, description, productPrice);
 
             Assert.True(productResult.IsSuccess);
 
@@ -64,19 +65,23 @@ namespace HonyStore.UnitTests.Domain
         public void ChangePrice_WithValidPrice_ShouldPriceChanged()
         {
             decimal changedValue = 150;
-            Result<Product> productResult = Product.Create(ProductId.NewId(), "Картошка", "картофельная", 100);
+            var productPrice = ProductPrice.Create(100).Value;
+
+            Result<Product> productResult = Product.Create(ProductId.NewId(), "Картошка", "картофельная", productPrice);
             Product product = productResult.Value;
 
             product.UpdatePrice(changedValue);
 
-            Assert.Equal(changedValue, product.Price);
+            Assert.Equal(changedValue, product.Price.Value);
         }
 
         [Fact]
         public void ChangePrice_WhenPriceIsZero_ShouldThrowArgumentException()
         {
             decimal changedValue = 0;
-            Result<Product> productResult = Product.Create(ProductId.NewId(), "Картошка", "картофельная", 100);
+            var productPrice = ProductPrice.Create(100).Value;
+
+            Result<Product> productResult = Product.Create(ProductId.NewId(), "Картошка", "картофельная", productPrice);
             Product product = productResult.Value;
 
             var resultChangePrice = product.UpdatePrice(changedValue);

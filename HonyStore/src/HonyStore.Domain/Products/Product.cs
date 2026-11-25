@@ -18,7 +18,7 @@ namespace HonyStore.Domain.Products
         public string Description { get; private set; } = default!;
         public ProductPrice Price { get; private set; }
 
-        public static Result<Product> Create(ProductId id, string name, string description, decimal price)
+        public static Result<Product> Create(ProductId id, string name, string description, ProductPrice price)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -40,18 +40,10 @@ namespace HonyStore.Domain.Products
                 return Result.Failure<Product>($"Описание не может быть длиннее {Constraints.MAX_LENGTH_TITLE}");
             }
 
-            var resultPrice = ProductPrice.Create(price);
-
-            if (resultPrice.IsFailure)
-            {
-                return Result.Failure<Product>(resultPrice.Error);
-            }
-
-            var product = new Product(id, name, description, resultPrice.Value);
+            Product product = new(id, name, description, price);
 
             return Result.Success(product);
         }
-
 
         public Result<ProductPrice> UpdatePrice(decimal newPrice)
         {

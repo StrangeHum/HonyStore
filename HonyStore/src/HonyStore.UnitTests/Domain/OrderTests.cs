@@ -12,10 +12,10 @@ namespace HonyStore.UnitTests.Domain
     {
         public static List<Product> UnitTestProductDataBase = new List<Product> 
         {
-            Product.Create(ProductId.NewId(), "Картошка", "Картофельная", 42m).Value,
-            Product.Create(ProductId.NewId(), "Моркофка", "моркофельная", 12m).Value,
-            Product.Create(ProductId.NewId(), "Машинка", "Машинная", 1000m).Value,
-            Product.Create(ProductId.NewId(), "Каршинка", "Карширнная", 1300m).Value,
+            Product.Create(ProductId.NewId(), "Картошка", "Картофельная", ProductPrice.Create(42m).Value).Value,
+            Product.Create(ProductId.NewId(), "Моркофка", "моркофельная", ProductPrice.Create(12m).Value).Value,
+            Product.Create(ProductId.NewId(), "Машинка", "Машинная", ProductPrice.Create(1000m).Value).Value,
+            Product.Create(ProductId.NewId(), "Каршинка", "Карширнная", ProductPrice.Create(1300m).Value).Value,
         };
         public static IEnumerable<TheoryDataRow<OrderId, bool>> GetOrderIdsData = [
             new (OrderId.NewId(), true),
